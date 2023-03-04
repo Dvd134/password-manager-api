@@ -1,0 +1,20 @@
+# --------------------------- #
+#   Anypoint Platform Config  #
+# --------------------------- #
+
+password-manager-api:
+  anypoint:
+    name: "Password Manager API v1"
+    base-path: "/v1"
+    listener:
+      config-ref: "password-manager-api-http"
+
+# --------------------------- #
+#     HTTP/HTTPS Settings     #
+# --------------------------- #
+
+config:
+  http:
+    port: "8091"
+  https:
+    port: "8082"

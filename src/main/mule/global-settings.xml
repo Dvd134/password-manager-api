@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="password-manager-api-http" doc:id="c7830dc9-67d1-4e5a-a696-ae8674b4f28d" >
+		<http:listener-connection host="0.0.0.0" port="${secure::config.http.port}" />
+	</http:listener-config>
+	<secure-properties:config name="default-secure-properties" doc:name="Secure Properties Config" doc:id="7974edb3-3590-45ad-b1c6-be64dacb09ec" file="default.yaml" key="${securePlaceholderKey}" >
+		<secure-properties:encrypt useRandomIVs="true" />
+	</secure-properties:config>
+	<http:listener-config name="password-manager-api-https" doc:name="HTTP Listener config" doc:id="c38d93ba-4ee6-464e-9afa-20b6544c81c7" >
+		<http:listener-connection protocol="HTTPS" host="0.0.0.0" port="${secure::config.https.port}" >
+			<tls:context >
+				<tls:key-store path="${secure::key-store.path}" keyPassword="${secure::key-store.key-password}" password="${secure::key-store.password}" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<secure-properties:config name="environment-secure-prooerties" doc:name="Secure Properties Config" doc:id="b328db13-51f3-4ac0-aecf-9007050e51a7" file="environments/${environment}.yaml" key="${securePlaceholderKey}" >
+		<secure-properties:encrypt useRandomIVs="true" />
+	</secure-properties:config>
+</mule>

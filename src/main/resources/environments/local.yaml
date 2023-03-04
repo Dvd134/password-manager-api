@@ -1,0 +1,8 @@
+# --------------------------- #
+#     KeyStore Config         #
+# --------------------------- #
+
+key-store:
+  path: keystore.jks
+  key-password: "![+WOzAb9zRcx+cZ3C2kXbfpcgJOSqa3Bcz6K9GOKEttieO6rKKsupin7vlGWEt6G3]"
+  password: "![4spEpdLXowXwczJqbPSdddGK8YBcQA6mFQhPRhZLN6BSGD5WyqcAhpjfX1r3eq+m]"
