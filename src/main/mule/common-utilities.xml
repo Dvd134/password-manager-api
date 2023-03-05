@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<!-- 
+    	********************************************************************************
+    	**		INIT REQUEST SUBFLOW	        									  **
+    	********************************************************************************
+	-->
+	
+	<sub-flow name="common-utilities.InitRequest" doc:id="94b317c4-4d20-48cb-8ccd-6badd50d6e7e" >
+		<ee:transform doc:name="Set inputPayload, logHeader" doc:id="014fd9c8-c0ed-4689-8231-fa02f7e93b99" >
+			<ee:variables >
+				<ee:set-variable variableName="logHeader" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	'correlation_id': attributes.headers['Correlation-Id'] default correlationId,
+	'aproximate_timestamp': now(),
+	'application_name': app.name default "password-manager-api"
+}]]></ee:set-variable>
+				<ee:set-variable variableName="inputPayload" ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

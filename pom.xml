@@ -16,6 +16,9 @@
 		<app.runtime>4.4.0-20220824</app.runtime>
 		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
 		<mule-secure-configuration-property-module.version>1.2.3</mule-secure-configuration-property-module.version>
+		<oas.contract.version>1.0.1</oas.contract.version>
+		<anypoint-platform.group-id>7994c6af-afcc-42f8-8fcd-720038995f2c</anypoint-platform.group-id>
+		
 	</properties>
 
 	<build>
@@ -52,6 +55,19 @@
 			<artifactId>mule-secure-configuration-property-module</artifactId>
 			<version>${mule-secure-configuration-property-module.version}</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>1.6.1</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${anypoint-platform.group-id}</groupId>
+			<artifactId>password-manager-api</artifactId>
+			<version>${oas.contract.version}</version>
+			<classifier>oas</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 
