@@ -1,0 +1,16 @@
+# --------------------------- #
+#   Anypoint Platform Config  #
+# --------------------------- #
+
+password-manager-api:
+  anypoint:
+    auto-discovery-id: "18534617"
+
+# --------------------------- #
+#     KeyStore Config         #
+# --------------------------- #
+
+key-store:
+  path: keystore.jks
+  key-password: "![SsBUqNdKdzVENskJorc7TQo9Z+bwOlMSzdU3+RT6rSJBnoRND7eV7dZPcjdK/sn+]"
+  password: "![1FRLYIfJa+/tj8X6ZBtoY+thLlIhGHMZrmEccp3UNtXhe55Gqr+98fDKzYgIu+mi]"
