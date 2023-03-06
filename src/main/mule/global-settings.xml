@@ -25,5 +25,5 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 		<secure-properties:encrypt useRandomIVs="true" />
 	</secure-properties:config>
 	<api-gateway:autodiscovery apiId="${secure::password-manager-api.anypoint.auto-discovery-id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="4dafc137-cde9-4107-ac41-0699c7eadda8" flowRef="password-manager-api-main" />
-	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" api="resource::7994c6af-afcc-42f8-8fcd-720038995f2c:password-manager-api:1.0.1:oas:zip:dist.yaml" queryParamsStrictValidation="true" headersStrictValidation="true" />
+	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" api="resource::7994c6af-afcc-42f8-8fcd-720038995f2c:password-manager-api:1.0.1:oas:zip:dist.yaml" queryParamsStrictValidation="true"/>
 </mule>
