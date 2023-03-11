@@ -4,7 +4,7 @@
 
 	<groupId>com.mycompany</groupId>
 	<artifactId>password-manager-api</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>password-manager-api</name>
@@ -16,6 +16,10 @@
 		<app.runtime>4.4.0-20220824</app.runtime>
 		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
 		<mule-secure-configuration-property-module.version>1.2.3</mule-secure-configuration-property-module.version>
+		<oas.contract.version>1.0.9</oas.contract.version>
+		<anypoint-platform.group-id>7994c6af-afcc-42f8-8fcd-720038995f2c</anypoint-platform.group-id>
+		<mule-oauth2-provider-module.version>1.0.10</mule-oauth2-provider-module.version>
+		<mule-objectstore-connector.version>1.2.1</mule-objectstore-connector.version>
 	</properties>
 
 	<build>
@@ -30,6 +34,9 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<classifier>---- select project type ----</classifier>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -51,6 +58,31 @@
 			<groupId>com.mulesoft.modules</groupId>
 			<artifactId>mule-secure-configuration-property-module</artifactId>
 			<version>${mule-secure-configuration-property-module.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>1.6.1</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${anypoint-platform.group-id}</groupId>
+			<artifactId>password-manager-api</artifactId>
+			<version>${oas.contract.version}</version>
+			<classifier>oas</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.modules</groupId>
+			<artifactId>mule-oauth2-provider-module</artifactId>
+			<version>${mule-oauth2-provider-module.version}</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-objectstore-connector</artifactId>
+			<version>${mule-objectstore-connector.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>

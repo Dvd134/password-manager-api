@@ -18,3 +18,7 @@ config:
     port: "8091"
   https:
     port: "8082"
+    
+oauth:
+  grant-types:
+    client-credentials: "CLIENT_CREDENTIALS"
