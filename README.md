@@ -8,3 +8,4 @@ step 4: change api kit router config
 step 5: create api manager instance
 step 6: change appId for local and sandbox property files
 step 7: change anypoint client id and secret from runtime properties
+step 8: create and change connected app credentials from default.yaml

@@ -5,6 +5,12 @@
 password-manager-api:
   anypoint:
     auto-discovery-id: "18534617"
+    # At the moment conenctedApp credentials are not used
+    connected-app:
+      client-id: "3c508a3aa30e4df8ba9d8dd06f714da4"
+      client-secret: "![VH/+sY5xLUedYPZRQcNGQcC6VIpWQKVQcHN9rm0TTjl4vQj0fueX8oIpVFirokp/vC1z/w7jIsh1izWpkIc3iQ==]"
+    username: "deacudavidism1"
+    password: "![ww1DGObDFOvfijKhASNB0CqQElLmlthBTlpttsFuISYpIly5Gj2Bpu+9yWUKKRAj]"
 
 # --------------------------- #
 #     KeyStore Config         #
@@ -14,3 +20,8 @@ key-store:
   path: keystore.jks
   key-password: "![+WOzAb9zRcx+cZ3C2kXbfpcgJOSqa3Bcz6K9GOKEttieO6rKKsupin7vlGWEt6G3]"
   password: "![4spEpdLXowXwczJqbPSdddGK8YBcQA6mFQhPRhZLN6BSGD5WyqcAhpjfX1r3eq+m]"
+  
+connected-app:
+  client-id: "3c508a3aa30e4df8ba9d8dd06f714da4"
+  client-secret: "![VH/+sY5xLUedYPZRQcNGQcC6VIpWQKVQcHN9rm0TTjl4vQj0fueX8oIpVFirokp/vC1z/w7jIsh1izWpkIc3iQ==]"
+  
