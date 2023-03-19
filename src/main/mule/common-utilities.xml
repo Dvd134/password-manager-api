@@ -13,7 +13,17 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	-->
 	
 	<sub-flow name="common-utilities.InitRequest" doc:id="94b317c4-4d20-48cb-8ccd-6badd50d6e7e" >
-		<ee:transform doc:name="Set inputPayload, logHeader" doc:id="014fd9c8-c0ed-4689-8231-fa02f7e93b99" >
+		<ee:transform doc:name="Set inputPayload, logHeader, clientId, systemApi, payload" doc:id="014fd9c8-c0ed-4689-8231-fa02f7e93b99" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/x-www-form-urlencoded
+---
+
+{
+	username: "${secure::password-manager-api.anypoint.username}",
+	password: "${secure::password-manager-api.anypoint.password}"
+}]]></ee:set-payload>
+			</ee:message>
 			<ee:variables >
 				<ee:set-variable variableName="logHeader" ><![CDATA[%dw 2.0
 output application/java
@@ -27,8 +37,82 @@ output application/java
 output application/java
 ---
 payload]]></ee:set-variable>
+				<ee:set-variable variableName="clientId" ><![CDATA[%dw 2.0
+output application/java
+
+import fromBase64 from dw::core::Binaries
+---
+authentication.principal default (fromBase64((attributes.headers.Authorization splitBy(" "))[1]) splitBy(":"))[0]
+]]></ee:set-variable>
+				<ee:set-variable variableName="systemApi" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	protocol: "HTTPS",
+	http_method: "POST",
+	base_path: "",
+	host: "anypoint.mulesoft.com",
+	port: "443",
+	path: "/accounts/login"
+}]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+		<flow-ref doc:name="common-utilities.callSystemApi" doc:id="4c50d1de-aa6e-442c-862f-75f48b0568c2" name="common-utilities.callSystemApi" target="accessToken" targetValue="#[payload.access_token]"/>
+		<ee:transform doc:name="Set systemApi, payload" doc:id="12481d5d-7ece-48ea-9b13-a8262bb2d06f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+null]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="systemApi" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	protocol: "HTTPS",
+	http_method: "GET",
+	base_path: "/apiplatform/repository/v2",
+	host: "anypoint.mulesoft.com",
+	port: "443",
+	path: "/organizations/{organization_id}/applications",
+	uri_params: {
+		organization_id: "${secure::password-manager-api.anypoint.organization-id}"
+	},
+	query_params: {
+		ascending: true,
+		filter: "all",
+		limit: 10,
+		literalMatch: true,
+		offset: 0,
+		sort: "name",
+		targetAdminSite: true
+	},
+	custom_headers: {
+		Authorization: "Bearer " ++ vars.accessToken
+	}
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="common-utilities.callSystemApi" doc:id="7b6b382b-1e2a-430c-82d6-d3a65140b261" name="common-utilities.callSystemApi" target="clientApplications"/>
+		<ee:transform doc:name="Set credentials, payload" doc:id="e0cc7eb0-52f6-4be8-98cf-925d94aeb405">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+null]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="credentials"><![CDATA[%dw 2.0
+output application/java
+---
+{
+	client_id: vars.clientId,
+	client_secret: (vars.clientApplications.applications filter ((item, index) -> item.clientId == vars.clientId))[0].clientSecret 
+}
+]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
 	</sub-flow>
 	
 	<!-- 
@@ -38,11 +122,23 @@ payload]]></ee:set-variable>
 	-->
 	
 	<sub-flow name="common-utilities.callSystemApi" doc:id="916cf879-dc66-4d00-851d-1a8b06f1aac3" >
-		<http:request method="POST" doc:name="Request" doc:id="8e7f8092-5c72-4527-878c-c1b9b154191c" config-ref="https-request-config" path="#[vars.systemApi.path]" sendCorrelationId="NEVER">
-			<http:body ><![CDATA[#[vars.systemApi.payload default null]]]></http:body>
-			<http:headers ><![CDATA[#[vars.systemApi.custom_headers default {}]]]></http:headers>
-			<http:uri-params ><![CDATA[#[vars.systemApi.uri_params default {}]]]></http:uri-params>
-			<http:query-params ><![CDATA[#[vars.systemApi.query_params default {}]]]></http:query-params>
+		<choice doc:name="Choice" doc:id="299b45f7-dc49-454d-9180-c9c8535ff97f" >
+			<when expression='#[vars.systemApi.protocol == "HTTPS"]'>
+				<http:request method="#[vars.systemApi.http_method]" doc:name="HTTPS Request" doc:id="8e7f8092-5c72-4527-878c-c1b9b154191c" config-ref="https-request-config" path="#[vars.systemApi.path]" sendCorrelationId="NEVER">
+			<http:headers><![CDATA[#[vars.systemApi.custom_headers default {}]]]></http:headers>
+			<http:uri-params><![CDATA[#[vars.systemApi.uri_params default {}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[vars.systemApi.query_params default {}]]]></http:query-params>
 		</http:request>
+			</when>
+			<otherwise >
+				<http:request method="#[vars.systemApi.http_method]" doc:name="HTTP Request" doc:id="80aff320-1051-4fdc-b516-40c43dca5423" config-ref="http-request-config" path="#[vars.systemApi.path]" sendCorrelationId="NEVER">
+					<http:headers><![CDATA[#[vars.systemApi.custom_headers default {}]]]></http:headers>
+					<http:uri-params><![CDATA[#[vars.systemApi.uri_params default {}]]]></http:uri-params>
+					<http:query-params><![CDATA[#[vars.systemApi.query_params default {}]]]></http:query-params>
+				</http:request>
+			</otherwise>
+		</choice>
+		<set-variable value="#[attributes.statusCode]" doc:name="Set httpStatus" doc:id="92552bf6-e7b5-49eb-acc9-3bf99c6de0c3" variableName="httpStatus"/>
+		<remove-variable doc:name="Remove systemApi" doc:id="985c2a2e-2061-473e-9f1d-d91a2f222c20" variableName="systemApi"/>
 	</sub-flow>
 </mule>

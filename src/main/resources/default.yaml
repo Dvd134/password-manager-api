@@ -8,6 +8,7 @@ password-manager-api:
     base-path: "/v1"
     listener:
       config-ref: "password-manager-api-http"
+    organization-id: "98917c73-8c76-40c5-a499-a7959f76eae1"
 
 # --------------------------- #
 #     HTTP/HTTPS Settings     #
@@ -22,3 +23,4 @@ config:
 oauth:
   grant-types:
     client-credentials: "CLIENT_CREDENTIALS"
+    

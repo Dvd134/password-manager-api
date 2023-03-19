@@ -10,9 +10,6 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
 http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/schema/mule/oauth2-provider/current/mule-oauth2-provider.xsd">
-	<http:listener-config name="password-manager-api-http" doc:id="c7830dc9-67d1-4e5a-a696-ae8674b4f28d" >
-		<http:listener-connection host="0.0.0.0" port="${secure::config.http.port}" />
-	</http:listener-config>
 	<secure-properties:config name="default-secure-properties" doc:name="Secure Properties Config" doc:id="7974edb3-3590-45ad-b1c6-be64dacb09ec" file="default.yaml" key="${securePlaceholderKey}" >
 		<secure-properties:encrypt useRandomIVs="true" />
 	</secure-properties:config>
@@ -27,7 +24,7 @@ http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/sche
 		<secure-properties:encrypt useRandomIVs="true" />
 	</secure-properties:config>
 	<api-gateway:autodiscovery apiId="${secure::password-manager-api.anypoint.auto-discovery-id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="4dafc137-cde9-4107-ac41-0699c7eadda8" flowRef="password-manager-api-main" />
-	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" api="resource::7994c6af-afcc-42f8-8fcd-720038995f2c:password-manager-api:1.0.9:oas:zip:dist.yaml" disableValidations="true">
+	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" disableValidations="true" api="resource::98917c73-8c76-40c5-a499-a7959f76eae1:password-manager-api:1.0.0:oas:zip:dist.yaml">
 		<apikit:flow-mappings >
 			<apikit:flow-mapping resource="/actions/auth" action="post" content-type="application/json" flow-ref="post:\actions\auth:password-manager-api-router" />
 		</apikit:flow-mappings>
@@ -35,10 +32,23 @@ http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/sche
 	<os:config name="object-store-config" doc:name="ObjectStore Config" doc:id="191844f3-e3fd-4841-a221-f74b4860c5ec" />
 	<os:object-store name="token-os" doc:name="Object store" doc:id="1087e630-4bc2-46ed-b789-105857b30381" config-ref="object-store-config" />
 	<os:object-store name="client-os" doc:name="Object store" doc:id="b317c083-a0b6-4b2b-9590-6308bb758536" config-ref="object-store-config" />
-	<oauth2-provider:config name="oauth2-provider-config" doc:name="OAuth2 Provider Config" doc:id="b20ed77e-92dc-45df-9cb7-1855c81e6f92" listenerConfig="password-manager-api-https" clientStore="client-os" supportedGrantTypes="CLIENT_CREDENTIALS" >
-		<oauth2-provider:token-config tokenStore="token-os" />
+	<oauth2-provider:config name="oauth2-provider-config" doc:name="OAuth2 Provider Config" doc:id="b20ed77e-92dc-45df-9cb7-1855c81e6f92" listenerConfig="password-manager-api-http-internal" clientStore="client-os" supportedGrantTypes="CLIENT_CREDENTIALS" >
+		<oauth2-provider:token-config tokenStore="token-os" tokenTtl="600"/>
 	</oauth2-provider:config>
-	<http:request-config name="https-request-config" doc:name="HTTP Request configuration" doc:id="7257d75d-172f-4066-9b53-20d2cd5f6509" basePath="#[vars.systemApi.base_path]" >
+	<http:request-config name="https-request-config" doc:name="HTTP Request configuration" doc:id="7257d75d-172f-4066-9b53-20d2cd5f6509" basePath="#[vars.systemApi.base_path]" enableCookies="false">
 		<http:request-connection protocol="HTTPS" host="#[vars.systemApi.host]" port="#[vars.systemApi.port]"/>
+	</http:request-config>
+	<http:listener-config name="password-manager-api-https-internal" doc:name="HTTP Listener config" doc:id="4c6a6533-e500-4d16-81dd-2c4ba6bf5526" >
+		<http:listener-connection protocol="HTTPS" host="0.0.0.0" port="8092" >
+			<tls:context >
+				<tls:key-store path="${secure::key-store.path}" keyPassword="${secure::key-store.key-password}" password="${secure::key-store.password}" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<http:listener-config name="password-manager-api-http-internal" doc:name="HTTP Listener config" doc:id="a242ad5a-1d9c-4eb5-b9a8-972d8cfc14e2" >
+		<http:listener-connection host="0.0.0.0" port="8091" />
+	</http:listener-config>
+	<http:request-config name="http-request-config" doc:name="HTTP Request configuration" doc:id="051ab88e-4244-4839-b5ac-1232ad50f221" basePath="#[vars.systemApi.base_path]" enableCookies="false">
+		<http:request-connection host="#[vars.systemApi.host]" port="#[vars.systemApi.port]"/>
 	</http:request-config>
 </mule>

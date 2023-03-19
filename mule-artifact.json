@@ -1,3 +1,14 @@
 {
-  "minMuleVersion": "4.4.0"
+    "name": "PasswordManager",
+    "minMuleVersion": "4.4.0",
+    "classLoaderModelLoaderDescriptor": {
+        "id": "mule",
+        "attributes": {
+            "exportedPackages": [
+                "ro.ase.ism.crypto",
+                "ro.ase.ism.entities",
+                "ro.ase.ism.services"
+            ]
+        }
+    }
 }
