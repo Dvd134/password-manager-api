@@ -8,7 +8,7 @@ password-manager-api:
     base-path: "/v1"
     listener:
       config-ref: "password-manager-api-http"
-    organization-id: "7994c6af-afcc-42f8-8fcd-720038995f2c"
+    organization-id: "98917c73-8c76-40c5-a499-a7959f76eae1"
 
 # --------------------------- #
 #     HTTP/HTTPS Settings     #

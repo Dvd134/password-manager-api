@@ -53,7 +53,7 @@ output application/json
 	base_path: "",
 	host: "anypoint.mulesoft.com",
 	port: "443",
-	path: "/accounts/login",
+	path: "/accounts/login"
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
