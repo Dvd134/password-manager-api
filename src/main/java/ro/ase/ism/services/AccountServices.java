@@ -79,6 +79,44 @@ public class AccountServices {
 		return aesUtils.encryptFileContent(credentials.getClientSecret(), plainText);
 	}
 	
+	public static String deleteAccount(Credentials credentials, String cipherText, String identifier) throws InvalidKeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, InvalidKeySpecException, BadPaddingException {
+		
+		LOGGER.info("deleteAccount started");
+		
+		AESUtils aesUtils = new AESUtils();
+		String plainText = aesUtils.decryptFileContent(credentials.getClientSecret(), cipherText);
+		String header = "id <---> username <---> password <---> domain <---> tags" + System.lineSeparator();
+		StringBuilder updatedPlainText = new StringBuilder(header);
+		boolean isDeleted = false;
+		
+		String[] lines = plainText.split(System.lineSeparator());
+		for(int i = 1; i < lines.length ; i++) {
+			
+			int id = Integer.parseInt(lines[i].split(" <---> ")[0]);
+			if(id == Integer.parseInt(identifier)) {
+				
+				LOGGER.info("Account deleted. " + lines[i]);
+				isDeleted = true;
+				continue;
+			}
+			
+			if(!isDeleted) {
+				
+				updatedPlainText.append(lines[i]).append(System.lineSeparator());
+			} else {
+				
+				String[] accountComponents = lines[i].split(" <---> ");
+				updatedPlainText.append(Integer.parseInt(accountComponents[0]) - 1).append(" <---> ")
+								.append(accountComponents[1]).append(" <---> ")
+								.append(accountComponents[2]).append(" <---> ")
+								.append(accountComponents[3]).append(" <---> ")
+								.append(accountComponents[4]).append(System.lineSeparator());
+			}
+		}
+		
+		return aesUtils.encryptFileContent(credentials.getClientSecret(), new String(updatedPlainText));
+	}
+	
 //	public static String addAccount(Credentials credentials, String cipherText, Account account) throws InvalidKeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, InvalidKeySpecException, BadPaddingException {
 //		
 //		LOGGER.info("add Account started");
