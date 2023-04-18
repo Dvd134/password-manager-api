@@ -21,4 +21,9 @@ key-store:
   key-password: "![+WOzAb9zRcx+cZ3C2kXbfpcgJOSqa3Bcz6K9GOKEttieO6rKKsupin7vlGWEt6G3]"
   password: "![4spEpdLXowXwczJqbPSdddGK8YBcQA6mFQhPRhZLN6BSGD5WyqcAhpjfX1r3eq+m]"
 
-  
+aws-s3:
+  iam:
+    username: "Dvd"
+    password: "![O3zSKPehFs71uq4ZH13a9kM/Aoow+cf0juLiMIpHKd0+kusiBzf6mCtWMTOF7IMG]"
+    access-key: "![WuOiiMZ+bLgwPWCbmkxt4cL80q0UYbmbCKXna+aM4HVtLtkyhpy+RUXZqay+sTAa]"
+    access-secret-key: "![NT2XRDQ+3finLQlR5FOAGqcpad2IupJGziHh3FdGcF4DT7LLMkL87Zh1HnVUklFlxnDHCxVwJrdqdhwRMloubg==]"

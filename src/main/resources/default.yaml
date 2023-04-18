@@ -28,14 +28,3 @@ files:
   encrypted-files:
     path: "database"
     
-# --------------------------- #
-#     AWS Settings            #
-# --------------------------- #
-
-aws-s3:
-  iam:
-    username: "Dvd"
-    password: "dywhyf-jikgY4-nawdes"
-    access-key: "AKIATBEKWFWH4APIXUHY"
-    access-secret-key: "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"
-    
