@@ -26,7 +26,7 @@ http://www.mulesoft.org/schema/mule/s3 http://www.mulesoft.org/schema/mule/s3/cu
 		<secure-properties:encrypt useRandomIVs="true" />
 	</secure-properties:config>
 	<api-gateway:autodiscovery apiId="${secure::password-manager-api.anypoint.auto-discovery-id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="4dafc137-cde9-4107-ac41-0699c7eadda8" flowRef="password-manager-api-main" />
-	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" disableValidations="true" api="resource::98917c73-8c76-40c5-a499-a7959f76eae1:password-manager-api:1.0.1:oas:zip:dist.yaml">
+	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="355cae3a-c110-48e6-8df8-4a127c0e4817" name="password-manager-api-router" disableValidations="true" api="resource::98917c73-8c76-40c5-a499-a7959f76eae1:password-manager-api:1.0.2:oas:zip:dist.yaml">
 		<apikit:flow-mappings >
 			<apikit:flow-mapping resource="/actions/auth" action="post" content-type="application/json" flow-ref="post:\actions\auth:password-manager-api-router" />
 		</apikit:flow-mappings>

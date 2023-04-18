@@ -16,7 +16,7 @@
 		<app.runtime>4.4.0-20220824</app.runtime>
 		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
 		<mule-secure-configuration-property-module.version>1.2.3</mule-secure-configuration-property-module.version>
-		<oas.contract.version>1.0.1</oas.contract.version>
+		<oas.contract.version>1.0.2</oas.contract.version>
 		<anypoint-platform.group-id>98917c73-8c76-40c5-a499-a7959f76eae1</anypoint-platform.group-id>
 		<mule-oauth2-provider-module.version>1.0.10</mule-oauth2-provider-module.version>
 		<mule-objectstore-connector.version>1.2.1</mule-objectstore-connector.version>
