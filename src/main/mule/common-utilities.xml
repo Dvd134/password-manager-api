@@ -40,10 +40,8 @@ payload]]></ee:set-variable>
 				<ee:set-variable variableName="clientId" ><![CDATA[%dw 2.0
 output application/java
 
-import fromBase64 from dw::core::Binaries
 ---
-authentication.principal default (fromBase64((attributes.headers.Authorization splitBy(" "))[1]) splitBy(":"))[0]
-]]></ee:set-variable>
+authentication.principal]]></ee:set-variable>
 				<ee:set-variable variableName="systemApi" ><![CDATA[%dw 2.0
 output application/json
 ---
