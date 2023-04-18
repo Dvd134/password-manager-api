@@ -4,6 +4,10 @@ import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -26,16 +30,18 @@ public class AESUtils {
     private static final String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA1";
     private static final String KEY_ALGORITHM = "AES";
 
+    private final int BATCH_SIZE = 1024;
     private final int IV_SIZE = 128;
     private int iterationCount = 1989;
     private int keySize = 256;
     private int saltLength;
 
-    private final DataType dataType = DataType.BASE64;
+    private DataType dataType;
     private Cipher cipher;
 
     public AESUtils() {
 
+        dataType = DataType.BASE64;
         try {
 
             cipher = Cipher.getInstance(CIPHER_ALGORITHM);
@@ -48,6 +54,7 @@ public class AESUtils {
 
     public AESUtils(int keySize, int iterationCount) {
 
+        dataType = DataType.BASE64;
         this.keySize = keySize;
         this.iterationCount = iterationCount;
         try {
@@ -75,6 +82,44 @@ public class AESUtils {
         String iv = byteToHex(getRandomBytes(IV_SIZE / 8, null));
         String cipherText = encrypt(salt, iv, passPhrase, plainText);
         return salt + iv + cipherText;
+    }
+
+    public String encryptFileContent(String passPhrase, String plainText) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
+
+        String salt = byteToHex(getRandomBytes(keySize / 8, null));
+        String iv = byteToHex(getRandomBytes(IV_SIZE / 8, null));
+        StringBuilder cipherText = new StringBuilder();
+        dataType = DataType.HEX;
+
+        for(int i = 0 ; i < plainText.length() ; i += BATCH_SIZE) {
+
+            int endIndex = Math.min(i + BATCH_SIZE, plainText.length());
+            String batch = plainText.substring(i, endIndex);
+            cipherText.append(encrypt(salt, iv, passPhrase, batch));
+        }
+
+        dataType = DataType.BASE64;
+        return salt + iv + cipherText;
+    }
+
+    public String decryptFileContent(String passPhrase, String cipherText) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, InvalidKeySpecException, BadPaddingException, InvalidKeyException {
+
+        String salt = cipherText.substring(0, saltLength);
+        int ivLength = IV_SIZE / 4;
+        String iv = cipherText.substring(saltLength, saltLength + ivLength);
+        String ct = cipherText.substring(saltLength + ivLength);
+        StringBuilder plainText = new StringBuilder();
+        dataType = DataType.HEX;
+
+        for(int i = 0 ; i < ct.length() ; i += BATCH_SIZE) {
+
+            int endIndex = Math.min(i + BATCH_SIZE, ct.length());
+            String batch = ct.substring(i, endIndex);
+            plainText.append(decrypt(salt, iv, passPhrase, batch));
+        }
+
+        dataType = DataType.BASE64;
+        return plainText.toString();
     }
 
     public String decrypt(String salt, String iv, String passPhrase, String cipherText) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
@@ -108,3 +153,4 @@ public class AESUtils {
     }
 
 }
+

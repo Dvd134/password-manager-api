@@ -20,4 +20,15 @@ key-store:
   path: keystore2.jks
   key-password: "![SsBUqNdKdzVENskJorc7TQo9Z+bwOlMSzdU3+RT6rSJBnoRND7eV7dZPcjdK/sn+]"
   password: "![1FRLYIfJa+/tj8X6ZBtoY+thLlIhGHMZrmEccp3UNtXhe55Gqr+98fDKzYgIu+mi]"
+  
+# --------------------------- #
+#     AWS Settings            #
+# --------------------------- #
+
+aws-s3:
+  iam:
+    username: "Dvd"
+    password: "![QAR6eyrhN+Aa/7HvpghAj7+wqb9xlnL60LpmcOGQ34bWhjRDo7zgzgu5lu0MDvm+]"
+    access-key: "![N7DrpHT8V2zyGkMZor9yg/z0ldMuobl5yL7y69XcVUhhFpUJyfjWk7Y4l7GKsJvM]"
+    access-secret-key: "![QLybNJPmL6xTajpxVJwNnfdJRnnrVAOiHRBQqslzXuyjQ4uZ91R/GBn7vMCeATtz67JpnI3w0e/ivt83/3pONw==]"
 

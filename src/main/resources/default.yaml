@@ -24,3 +24,7 @@ oauth:
   grant-types:
     client-credentials: "CLIENT_CREDENTIALS"
     
+files:
+  encrypted-files:
+    path: "database"
+    
