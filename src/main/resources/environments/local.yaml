@@ -4,12 +4,12 @@
 
 password-manager-api:
   anypoint:
-    auto-discovery-id: "18568932"
+    auto-discovery-id: "18646718"
     # At the moment conenctedApp credentials are not used
     connected-app:
       client-id: "3c508a3aa30e4df8ba9d8dd06f714da4"
       client-secret: "![VH/+sY5xLUedYPZRQcNGQcC6VIpWQKVQcHN9rm0TTjl4vQj0fueX8oIpVFirokp/vC1z/w7jIsh1izWpkIc3iQ==]"
-    username: "deacudavidism2"
+    username: "deacudavidism3"
     password: "![ww1DGObDFOvfijKhASNB0CqQElLmlthBTlpttsFuISYpIly5Gj2Bpu+9yWUKKRAj]"
 
 # --------------------------- #
@@ -23,7 +23,5 @@ key-store:
 
 aws-s3:
   iam:
-    username: "Dvd"
-    password: "![O3zSKPehFs71uq4ZH13a9kM/Aoow+cf0juLiMIpHKd0+kusiBzf6mCtWMTOF7IMG]"
-    access-key: "![WuOiiMZ+bLgwPWCbmkxt4cL80q0UYbmbCKXna+aM4HVtLtkyhpy+RUXZqay+sTAa]"
-    access-secret-key: "![NT2XRDQ+3finLQlR5FOAGqcpad2IupJGziHh3FdGcF4DT7LLMkL87Zh1HnVUklFlxnDHCxVwJrdqdhwRMloubg==]"
+    access-key: "![lo5VACyw2eGJ8eu16SNt0bdSKiJMTBoVFRBk7MwU30woS8mCIQz+uwkL0oLwlDRz]"
+    access-secret-key: "![nltYaP/V2cF0p8khjzkmvf9bpTOyXATIvsBsCLG0SH9sM+6aQ+V/GWlQaAwW5HKqV3fDxcawClbNjvrqTK2VEg==]"
